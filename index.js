@@ -45,24 +45,36 @@ class Stack {
 }
 
 const userInput = prompt();
-const bracketsStack = new Stack();
-let flag = true;
-for (const c of userInput) {
-    if (c === '(') {
-        bracketsStack.push(c);
+alert( checkCorrectBracketSequence( userInput )
+    ? 'Brackets are OK'
+    : 'Something is wrong with brackets' );
+
+/**
+ *
+ * @param {string} str
+ * @param {object} [options]
+ * @param {object} options.brackets - description
+ * @returns {boolean}
+ */
+function checkCorrectBracketSequence(str, options = {
+    brackets: {
+        '(': ')',
+        '{': '}',
+        '[': ']',
     }
-    if (c === ')') {
-        if (bracketsStack.pick() === '(') {
+}) {
+    const bracketsStack = new Stack( str.length );
+    const brackets = options.brackets;
+
+    for (const s of str) {
+        if (brackets[s]) {
+            bracketsStack.push( s );
+            continue;
+        }
+        if (brackets[bracketsStack.pick()] === s) {
             bracketsStack.pop();
-        } else {
-            flag = false;
-            break;
         }
     }
-}
 
-if (!bracketsStack.isEmpty) {
-    flag = false;
+    return bracketsStack.isEmpty;
 }
-
-flag ? alert('Brackets are OK') :  alert('Something is wrong with brackets');
