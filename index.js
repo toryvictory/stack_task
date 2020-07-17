@@ -14,7 +14,7 @@ class Stack {
     push(v) {
         this[this._size++] = v;
         if (this._size > this._maxSize) {
-            throw new RangeError( 'Stack overflow' );
+            throw new RangeError('Stack overflow');
         }
         return this._size;
     }
@@ -43,3 +43,26 @@ class Stack {
     }
 
 }
+
+const userInput = prompt();
+const bracketsStack = new Stack();
+let flag = true;
+for (const c of userInput) {
+    if (c === '(') {
+        bracketsStack.push(c);
+    }
+    if (c === ')') {
+        if (bracketsStack.pick() === '(') {
+            bracketsStack.pop();
+        } else {
+            flag = false;
+            break;
+        }
+    }
+}
+
+if (!bracketsStack.isEmpty) {
+    flag = false;
+}
+
+flag ? alert('Brackets are OK') :  alert('Something is wrong with brackets');
